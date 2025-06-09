@@ -7,7 +7,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import androidx.core.view.WindowInsetsCompat;
 public class ProfilActivity extends AppCompatActivity {
     EditText edtNama,edtProdi,edtBisnis,edtMobile;
     Button btnSubmit;
+    RadioButton rdbPria, rdbWanita;
+    CheckBox ckbBasket,ckbMasak;
     TextView txvHasil;
 
     @Override
@@ -39,6 +43,10 @@ public class ProfilActivity extends AppCompatActivity {
         txvHasil = findViewById(R.id.txvHasil);
         edtMobile = findViewById(R.id.edtMobile);
         edtBisnis = findViewById(R.id.edtBisnis);
+        rdbPria = findViewById(R.id.rdbPria);
+        rdbWanita = findViewById(R.id.rdbWanita);
+        ckbBasket = findViewById(R.id.ckbBasket);
+        ckbMasak = findViewById(R.id.ckbMasak);
 
         edtNama.setText(getIntent().getStringExtra("nama").toString());
         edtProdi.setText(getIntent().getStringExtra("prodi").toString());
@@ -50,11 +58,18 @@ public class ProfilActivity extends AppCompatActivity {
                 String fakultas = "Fakultas Teknologi Informasi";
                 int nilaimobile=Integer.parseInt(edtMobile.getText().toString());
                 int nilaibisnis=Integer.parseInt(edtBisnis.getText().toString());
-                txvHasil.setText(toUpperCase(nama) + "\n Program Studi " + toUpperCase(prodi)
+                String jenisKelamin="";
+                if(rdbPria.isChecked()) jenisKelamin=rdbPria.getText().toString();
+                else if(rdbWanita.isChecked()) jenisKelamin=rdbWanita.getText().toString();
+                String hobi="";
+                if(ckbBasket.isChecked()) hobi+=ckbBasket.getText().toString();
+                if(ckbMasak.isChecked()) hobi+=","+ckbMasak.getText().toString();
+                txvHasil.setText(toUpperCase(nama) +"\n Jenis Kelamin "+jenisKelamin
+                        +"\n Hobi "+hobi
+                        + "\n Program Studi " + toUpperCase(prodi)
                         +"\n"+ toUpperCase(cekFakultas(prodi))+"\n IPK "+String.valueOf(hitungIPK(nilaibisnis,nilaimobile)));
 
-                edtNama.setText("");
-                edtProdi.setText("");
+
             }
         });
     }

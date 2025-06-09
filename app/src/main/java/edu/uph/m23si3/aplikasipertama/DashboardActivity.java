@@ -33,6 +33,13 @@ public class DashboardActivity extends AppCompatActivity {
     }
     public void toProfil(){
         Intent intent = new Intent(this, ProfilActivity.class);
+        intent.putExtra("nama","Satria");
+        intent.putExtra("prodi","Sistem Informasi");
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

@@ -2,6 +2,9 @@ package edu.uph.m23si3.aplikasipertama;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +39,9 @@ public class ProfilActivity extends AppCompatActivity {
         txvHasil = findViewById(R.id.txvHasil);
         edtMobile = findViewById(R.id.edtMobile);
         edtBisnis = findViewById(R.id.edtBisnis);
+
+        edtNama.setText(getIntent().getStringExtra("nama").toString());
+        edtProdi.setText(getIntent().getStringExtra("prodi").toString());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -93,5 +99,31 @@ public class ProfilActivity extends AppCompatActivity {
         return  str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
+    public void bersihkanForm(){
+        edtNama.setText("");
+        edtProdi.setText("");
+        edtBisnis.setText("");
+        edtMobile.setText("");
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_profil, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection.
+        if(item.getItemId()==R.id.mBersihkanForm){
+            bersihkanForm();
+            return true;
+        }else if(item.getItemId()==R.id.mPengaturan){
+
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
+    }
 }

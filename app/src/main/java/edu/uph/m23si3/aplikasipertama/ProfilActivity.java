@@ -1,5 +1,7 @@
 package edu.uph.m23si3.aplikasipertama;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,6 +21,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import io.realm.gradle.Realm;
+
 public class ProfilActivity extends AppCompatActivity {
     EditText edtNama,edtProdi,edtBisnis,edtMobile;
     Button btnSubmit;
@@ -37,6 +41,8 @@ public class ProfilActivity extends AppCompatActivity {
             return insets;
         });
 
+        //Realm.init(this);
+
         edtNama = findViewById(R.id.edtNama);
         edtProdi = findViewById(R.id.edtProdi);
         btnSubmit = findViewById(R.id.btnSumbit);
@@ -48,7 +54,12 @@ public class ProfilActivity extends AppCompatActivity {
         ckbBasket = findViewById(R.id.ckbBasket);
         ckbMasak = findViewById(R.id.ckbMasak);
 
-        edtNama.setText(getIntent().getStringExtra("nama").toString());
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String usernamedef = getResources().getString(R.string.username_key);
+        String username = sharedPref.getString(getString(R.string.username_key), usernamedef);
+
+        edtNama.setText(username);
         edtProdi.setText(getIntent().getStringExtra("prodi").toString());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {

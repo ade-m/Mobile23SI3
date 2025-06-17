@@ -16,13 +16,13 @@
             android:name=".ProfilActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AplikasiPertama">

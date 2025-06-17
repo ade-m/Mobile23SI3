@@ -130,5 +130,15 @@
             android:textSize="12pt"
             android:textAlignment="center"
             android:text="Nama \n Program Studi \n Fakultas" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="edu.uph.m23si3.aplikasipertama.ProfilFragment"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            tools:layout_editor_absoluteX="192dp"
+            tools:layout_editor_absoluteY="574dp" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnRegister;
     EditText edtUsername, edtPassword;
@@ -31,6 +34,16 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //init realm
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .name("default.realm")
+                .schemaVersion(1)
+                .allowWritesOnUiThread(true) // sementara aktifkan untuk demo
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -58,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Login(){
         if(edtUsername.getText().toString().equals("Budi")&&
-           edtPassword.getText().toString().equals("03008111")){
+           edtPassword.getText().toString().equals("123456")){
             //simpan username
             editor.putString(getString(R.string.username_key), edtUsername.getText().toString());
             editor.apply();

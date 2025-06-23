@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.w3c.dom.Text;
+
+import edu.uph.m23si3.aplikasipertama.model.Mahasiswa;
+import io.realm.Realm;
+
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout llyBtnProfil;
+    TextView txvNama;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         llyBtnProfil = findViewById(R.id.llyBtnProfil);
         llyBtnProfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +38,17 @@ public class DashboardActivity extends AppCompatActivity {
                 toProfil();
             }
         });
+
+        txvNama = findViewById(R.id.txvNama);
+        Realm realm = Realm.getDefaultInstance();
+        Mahasiswa mhs = realm.where(Mahasiswa.class).findFirst();
+        if (mhs != null) {
+            String text = mhs.toString();
+            txvNama.setText(text);
+        }
+        else{
+            txvNama.setText("Belum ada data");
+        }
     }
     public void toProfil(){
         Intent intent = new Intent(this, ProfilActivity.class);

@@ -21,7 +21,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import io.realm.gradle.Realm;
+import edu.uph.m23si3.aplikasipertama.model.Mahasiswa;
+import io.realm.Realm;
 
 public class ProfilActivity extends AppCompatActivity {
     EditText edtNama,edtProdi,edtBisnis,edtMobile;
@@ -79,10 +80,39 @@ public class ProfilActivity extends AppCompatActivity {
                         +"\n Hobi "+hobi
                         + "\n Program Studi " + toUpperCase(prodi)
                         +"\n"+ toUpperCase(cekFakultas(prodi))+"\n IPK "+String.valueOf(hitungIPK(nilaibisnis,nilaimobile)));
-
+                simpanData();
 
             }
         });
+    }
+
+    public void simpanData(){
+        String nama = edtNama.getText().toString();
+        String prodi = edtProdi.getText().toString();
+        String fakultas = "Fakultas Teknologi Informasi";
+        Double nilaimobile=Double.parseDouble(edtMobile.getText().toString());
+        Double nilaibisnis=Double.parseDouble(edtBisnis.getText().toString());
+        String jenisKelamin="-";
+        if(rdbPria.isChecked()) jenisKelamin=rdbPria.getText().toString();
+        else if(rdbWanita.isChecked()) jenisKelamin=rdbWanita.getText().toString();
+        String jk = jenisKelamin;
+        String hobi="";
+        if(ckbBasket.isChecked()) hobi+=ckbBasket.getText().toString();
+        if(ckbMasak.isChecked()) hobi+=","+ckbMasak.getText().toString();
+        String hobby = hobi;
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(r -> {
+            Number maxId = r.where(Mahasiswa.class).max("studentID");
+            int nextId = (maxId == null) ? 1 : maxId.intValue() + 1;
+            Mahasiswa mhs = r.createObject(Mahasiswa.class, nextId);
+            mhs.setNama(nama);
+            mhs.setProdi(prodi);
+            mhs.setJenisKelamin(jk);
+            mhs.setNilaiBisnis(nilaibisnis);
+            mhs.setNilaiMobile(nilaimobile);
+            mhs.setHobi(hobby);
+        });
+        Toast.makeText(this, "Data tersimpan", Toast.LENGTH_SHORT).show();
     }
 
     public double hitungIPK(int nilaiBisnis,int nilaiMobile){

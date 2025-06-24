@@ -56,6 +56,8 @@ public class DashboardActivity extends AppCompatActivity {
         MahasiswaAdapter numbersArrayAdapter = new MahasiswaAdapter(this, arrayList);
         ListView numbersListView = findViewById(R.id.lsvMahasiswa);
         numbersListView.setAdapter(numbersArrayAdapter);
+        results.addChangeListener(mhs -> numbersArrayAdapter.notifyDataSetChanged());
+
     }
     public void toProfil(){
         Intent intent = new Intent(this, ProfilActivity.class);

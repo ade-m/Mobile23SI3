@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import edu.uph.m23si3.aplikasipertama.R;
 import edu.uph.m23si3.aplikasipertama.model.Mahasiswa;
+import io.realm.Realm;
 
 public class MahasiswaAdapter extends ArrayAdapter<Mahasiswa> {
     public MahasiswaAdapter(@NonNull Context context, ArrayList<Mahasiswa> arrayList) {
@@ -43,7 +44,7 @@ public class MahasiswaAdapter extends ArrayAdapter<Mahasiswa> {
         // then according to the position of the view assign the desired image for the same
         ImageView numbersImage = currentItemView.findViewById(R.id.imvUser);
         assert currentNumberPosition != null;
-        if(currentNumberPosition.getJenisKelamin().equals("Perempuan")){
+        if(currentNumberPosition.getJenisKelamin().equals("Wanita")){
             numbersImage.setImageResource(R.drawable.user3);
         }
         else  numbersImage.setImageResource(R.drawable.user2);
@@ -57,7 +58,27 @@ public class MahasiswaAdapter extends ArrayAdapter<Mahasiswa> {
         TextView textView2 = currentItemView.findViewById(R.id.txvProdi);
         textView2.setText(currentNumberPosition.getProdi());
 
+        ImageView imvdelete = currentItemView.findViewById(R.id.imvDelete);
+        imvdelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteMahasiswa(currentNumberPosition.getStudentID());
+            }
+        });
+
         // then return the recyclable view
         return currentItemView;
+    }
+    private void deleteMahasiswa(long id) {
+        Realm realm = Realm.getDefaultInstance();
+        Mahasiswa mhs = realm.where(Mahasiswa.class).equalTo("studentID", id).findFirst();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                mhs.deleteFromRealm();
+                remove(mhs);
+                notifyDataSetChanged();
+            }
+        });
     }
 }

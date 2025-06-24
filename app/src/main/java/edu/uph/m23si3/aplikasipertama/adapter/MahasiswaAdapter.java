@@ -33,15 +33,20 @@ public class MahasiswaAdapter extends ArrayAdapter<Mahasiswa> {
 
         // of the recyclable view is null then inflate the custom layout for the same
         if (currentItemView == null) {
-            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.layoutmahasiiswa, parent, false);
+            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.layoutmahasiiswa, parent,
+                    false);
         }
 
         // get the position of the view from the ArrayAdapter
         Mahasiswa currentNumberPosition = getItem(position);
 
         // then according to the position of the view assign the desired image for the same
-        ImageView numbersImage = currentItemView.findViewById(R.id.imageView);
+        ImageView numbersImage = currentItemView.findViewById(R.id.imvUser);
         assert currentNumberPosition != null;
+        if(currentNumberPosition.getJenisKelamin().equals("Perempuan")){
+            numbersImage.setImageResource(R.drawable.user3);
+        }
+        else  numbersImage.setImageResource(R.drawable.user2);
         //numbersImage.setImageResource(currentNumberPosition.getNumbersImageId());
 
         // then according to the position of the view assign the desired TextView 1 for the same

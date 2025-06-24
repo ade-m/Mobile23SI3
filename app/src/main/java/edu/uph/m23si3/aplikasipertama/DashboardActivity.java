@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,8 +15,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
+import edu.uph.m23si3.aplikasipertama.adapter.MahasiswaAdapter;
 import edu.uph.m23si3.aplikasipertama.model.Mahasiswa;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout llyBtnProfil;
@@ -41,14 +46,16 @@ public class DashboardActivity extends AppCompatActivity {
 
         txvNama = findViewById(R.id.txvNama);
         Realm realm = Realm.getDefaultInstance();
-        Mahasiswa mhs = realm.where(Mahasiswa.class).findFirst();
-        if (mhs != null) {
-            String text = mhs.toString();
-            txvNama.setText(text);
+        final ArrayList<Mahasiswa> arrayList = new ArrayList<>();
+
+        RealmResults<Mahasiswa> results = realm.where(Mahasiswa.class).findAll();
+        if (results != null) {
+            arrayList.addAll(realm.copyFromRealm(results));
         }
-        else{
-            txvNama.setText("Belum ada data");
-        }
+
+        MahasiswaAdapter numbersArrayAdapter = new MahasiswaAdapter(this, arrayList);
+        ListView numbersListView = findViewById(R.id.lsvMahasiswa);
+        numbersListView.setAdapter(numbersArrayAdapter);
     }
     public void toProfil(){
         Intent intent = new Intent(this, ProfilActivity.class);
